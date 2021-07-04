@@ -15,6 +15,7 @@ import (
 )
 
 var SecretKey string
+var Endpoint string
 
 type APIResponse struct {
 	Header     http.Header
@@ -57,14 +58,6 @@ func (s *BackendImplementation) Call(method, path string, params interface{}, v 
 	}
 
 	if params != nil {
-		// This is a little unfortunate, but Go makes it impossible to compare
-		// an interface value to nil without the use of the reflect package and
-		// its true disciples insist that this is a feature and not a bug.
-		//
-		// Here we do invoke reflect because (1) we have to reflect anyway to
-		// use encode with the form package, and (2) the corresponding removal
-		// of boilerplate that this enables makes the small performance penalty
-		// worth it.
 		reflectValue := reflect.ValueOf(params)
 
 		if reflectValue.Kind() == reflect.Struct && !reflectValue.IsNil() {
@@ -143,9 +136,6 @@ func (s *BackendImplementation) Do(req *http.Request, body []byte, v interface{}
 
 	if err != nil {
 		fmt.Printf("Request failed with error: %v", err)
-	}
-
-	if err != nil {
 		return err
 	}
 
@@ -156,7 +146,7 @@ func (s *BackendImplementation) Do(req *http.Request, body []byte, v interface{}
 
 func GetBackend() Backend {
 	return newBackendImplementation(&BackendConfig{
-		URL:        "http://10.0.1.20:8080/",
+		URL:        Endpoint,
 		HTTPClient: httpClient,
 	})
 }
