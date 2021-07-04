@@ -77,8 +77,8 @@ type AllUsersResponse struct {
 	Success        bool        `json:"success,omitempty"`
 	Total          int         `json:"total,omitempty"`
 	Page           int         `json:"page,omitempty"`
-	PreviousCursor interface{} `json:"previousCursor,omitempty"`
-	NextCursor     interface{} `json:"nextCursor,omitempty"`
+	PreviousCursor interface{} `json:"previousCursor,omitempty"` // false if none otherwise string
+	NextCursor     interface{} `json:"nextCursor,omitempty"`     // false if none otherwise string
 	Results        []User      `json:"results,omitempty"`
 	Error          string      `json:"error,omitempty"`
 }

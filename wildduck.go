@@ -34,7 +34,7 @@ func newAPIResponse(res *http.Response, resBody []byte) *APIResponse {
 
 type Backend interface {
 	Call(method, path string, params interface{}, v interface{}) error
-	CallRaw(method, path, secretKey string, body []byte, v interface{}) error
+	callRaw(method, path, secretKey string, body []byte, v interface{}) error
 }
 
 type BackendImplementation struct {
@@ -63,10 +63,10 @@ func (s *BackendImplementation) Call(method, path string, params interface{}, v 
 		}
 	}
 
-	return s.CallRaw(method, path, SecretKey, body, v)
+	return s.callRaw(method, path, SecretKey, body, v)
 }
 
-func (s *BackendImplementation) CallRaw(method, path, secretKey string, body []byte, v interface{}) error {
+func (s *BackendImplementation) callRaw(method, path, secretKey string, body []byte, v interface{}) error {
 
 	req, err := s.NewRequest(method, path, secretKey, "application/json")
 	if err != nil {
