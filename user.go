@@ -3,6 +3,33 @@ package wildduck
 type User struct {
 	Id               string                 `json:"id,omitempty"`
 	Username         string                 `json:"username,omitempty"`
+	Password         string                 `json:"password,omitempty"`
+	Name             string                 `json:"name,omitempty"`
+	Address          string                 `json:"address,omitempty"`
+	Retention        int                    `json:"retention,omitempty"`
+	Tags             []string               `json:"tags,omitempty"`
+	Targets          []string               `json:"targets,omitempty"`
+	Enabled2Fa       []string               `json:"enabled2fa,omitempty"`
+	AutoReply        bool                   `json:"autoreply,omitempty"`
+	EncryptMessages  bool                   `json:"encryptMessages,omitempty"`
+	EncryptForwarded bool                   `json:"encryptForwarded,omitempty"`
+	PubKey           string                 `json:"pubKey,omitempty"`
+	KeyInfo          KeyInfo                `json:"keyInfo,omitempty"`
+	MetaData         map[string]interface{} `json:"metaData,omitempty"`
+	InternalData     map[string]interface{} `json:"internalData,omitempty"`
+	SpamLevel        int                    `json:"spamLevel,omitempty"`
+	Limits           Limits                 `json:"limits,omitempty"`
+	FromWhiteList    []string               `json:"fromWhiteList,omitempty"`
+	DisabledScopes   []string               `json:"disabledScopes,omitempty"`
+	HasPasswordSet   bool                   `json:"hasPasswordSet,omitempty"`
+	Disabled         bool                   `json:"disabled,omitempty"`
+	Suspended        bool                   `json:"suspended,omitempty"`
+}
+
+type UserParams struct {
+	Id               string                 `json:"id,omitempty"`
+	Username         string                 `json:"username,omitempty"`
+	Password         string                 `json:"password,omitempty"`
 	Name             string                 `json:"name,omitempty"`
 	Address          string                 `json:"address,omitempty"`
 	Retention        int                    `json:"retention,omitempty"`
@@ -13,16 +40,15 @@ type User struct {
 	EncryptMessages  bool                   `json:"encryptMessages,omitempty"`
 	EncryptForwarded bool                   `json:"encryptForwarded,omitempty"`
 	PubKey           string                 `json:"pubKey,omitempty"`
-	KeyInfo          KeyInfo                `json:"keyInfo,omitempty"`
 	MetaData         map[string]interface{} `json:"metaData,omitempty"`
 	InternalData     map[string]interface{} `json:"internalData,omitempty"`
 	SpamLevel        int                    `json:"spamLevel,omitempty"`
-	Limits           Limits                 `json:"limits"`
 	FromWhiteList    []string               `json:"fromWhiteList,omitempty"`
 	DisabledScopes   []string               `json:"disabledScopes,omitempty"`
 	HasPasswordSet   bool                   `json:"hasPasswordSet,omitempty"`
 	Disabled         bool                   `json:"disabled,omitempty"`
 	Suspended        bool                   `json:"suspended,omitempty"`
+	Quota            int64                  `json:"quota,omitempty"`
 }
 
 type KeyInfo struct {
@@ -48,10 +74,11 @@ type Limits struct {
 }
 
 type AllUsersResponse struct {
-	Success        bool   `json:"success,omitempty"`
-	Total          int    `json:"total,omitempty"`
-	Page           int    `json:"page,omitempty"`
-	PreviousCursor string `json:"previousCursor,omitempty"`
-	NextCursor     string `json:"nextCursor,omitempty"`
-	Results        []User `json:"results,omitempty"`
+	Success        bool        `json:"success,omitempty"`
+	Total          int         `json:"total,omitempty"`
+	Page           int         `json:"page,omitempty"`
+	PreviousCursor interface{} `json:"previousCursor,omitempty"`
+	NextCursor     interface{} `json:"nextCursor,omitempty"`
+	Results        []User      `json:"results,omitempty"`
+	Error          string      `json:"error,omitempty"`
 }

@@ -9,7 +9,6 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-	"reflect"
 	"strings"
 	"time"
 )
@@ -58,13 +57,9 @@ func (s *BackendImplementation) Call(method, path string, params interface{}, v 
 	}
 
 	if params != nil {
-		reflectValue := reflect.ValueOf(params)
-
-		if reflectValue.Kind() == reflect.Struct && !reflectValue.IsNil() {
-			body, err = json.Marshal(params)
-			if err != nil {
-				return err
-			}
+		body, err = json.Marshal(params)
+		if err != nil {
+			return fmt.Errorf("could not marshal: %v \n error: %v", params, err)
 		}
 	}
 
@@ -129,10 +124,13 @@ func (s *BackendImplementation) Do(req *http.Request, body []byte, v interface{}
 
 	res, err = s.HTTPClient.Do(req)
 
-	if err == nil {
-		resBody, err = ioutil.ReadAll(res.Body)
-		res.Body.Close()
+	if err != nil {
+		fmt.Printf("Request failed with error: %v", err)
+		return err
 	}
+
+	resBody, err = ioutil.ReadAll(res.Body)
+	res.Body.Close()
 
 	if err != nil {
 		fmt.Printf("Request failed with error: %v", err)
@@ -140,6 +138,9 @@ func (s *BackendImplementation) Do(req *http.Request, body []byte, v interface{}
 	}
 
 	err = json.Unmarshal(resBody, v)
+	if err != nil {
+		err = fmt.Errorf("could not unmarshal: %s, \n error: %v", resBody, err)
+	}
 
 	return err
 }

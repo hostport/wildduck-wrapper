@@ -10,11 +10,11 @@ type Client struct {
 	Backend wildduck.Backend
 }
 
-func New(user *wildduck.User) error {
+func New(user *wildduck.UserParams) error {
 	return getClient().New(user)
 }
 
-func (c Client) New(user *wildduck.User) error {
+func (c Client) New(user *wildduck.UserParams) error {
 	res := &struct {
 		Success bool   `json:"success"`
 		Id      string `json:"id"`
