@@ -24,6 +24,7 @@ type User struct {
 	HasPasswordSet   bool                   `json:"hasPasswordSet,omitempty"`
 	Disabled         bool                   `json:"disabled,omitempty"`
 	Suspended        bool                   `json:"suspended,omitempty"`
+	Success          bool                   `json:"success,omitempty"`
 }
 
 type UserParams struct {

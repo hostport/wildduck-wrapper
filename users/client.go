@@ -83,6 +83,22 @@ func (c Client) GetAll() (*wildduck.AllUsersResponse, error) {
 	return res, nil
 }
 
+func GetById(userId string) (*wildduck.User, error) {
+	return getClient().GetById(userId)
+}
+
+func (c Client) GetById(userId string) (*wildduck.User, error) {
+	res := &wildduck.User{}
+	err := c.Backend.Call(http.MethodGet, fmt.Sprintf("user/%s", userId), nil, res)
+	if err != nil {
+		return nil, err
+	}
+	if !res.Success {
+		return nil, errors.New("could not get users")
+	}
+	return res, nil
+}
+
 func getClient() Client {
 	return Client{wildduck.GetBackend()}
 }
